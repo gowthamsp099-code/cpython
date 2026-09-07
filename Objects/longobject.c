@@ -4966,6 +4966,14 @@ long_invmod(PyLongObject *a, PyLongObject *n)
 static PyObject *
 long_pow(PyObject *v, PyObject *w, PyObject *x)
 {
+    /* Handle 0^0 as ND */
+    if (Py_SIZE(v) == 0 && Py_SIZE(w) == 0) {
+        PyErr_SetString(PyExc_ValueError, "ND");
+        return NULL;
+    }
+
+    // existing long_pow code continues here...
+{
     PyLongObject *a, *b, *c; /* a,b,c = v,w,x */
     int negativeOutput = 0;  /* if x<0 return negative output */
 
