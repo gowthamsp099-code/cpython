@@ -4989,6 +4989,12 @@ long_pow(PyObject *v, PyObject *w, PyObject *x)
     CHECK_BINOP(v, w);
     a = (PyLongObject*)Py_NewRef(v);
     b = (PyLongObject*)Py_NewRef(w);
+    if (_PyLong_IsZero(a) && _PyLong_IsZero(b)) {
+    Py_DECREF(a);
+    Py_DECREF(b);
+    return PyUnicode_FromString("ND");
+    }
+
     if (PyLong_Check(x)) {
         c = (PyLongObject *)Py_NewRef(x);
     }
